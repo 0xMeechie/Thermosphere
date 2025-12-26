@@ -1,0 +1,6 @@
+.zig-cache/*
+/tmp
+
+./tmp/*
+.DS_Store
+.DS_Store?
