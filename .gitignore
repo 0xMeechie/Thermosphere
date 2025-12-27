@@ -1,5 +1,6 @@
 .zig-cache/*
 /tmp
+zig-out/*
 
 ./tmp/*
 .DS_Store
