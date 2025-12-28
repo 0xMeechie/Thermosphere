@@ -10,6 +10,7 @@ pub fn build(b: *std.Build) void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
+    const zli_dep = b.dependency("zli", .{ .target = target, .optimize = optimize });
 
     const exe = b.addExecutable(.{
         .name = "Thermosphere",
@@ -29,6 +30,8 @@ pub fn build(b: *std.Build) void {
 
         }),
     });
+
+    exe.root_module.addImport("zli", zli_dep.module("zli"));
 
     // This declares intent for the executable to be installed into the
     // install prefix when running `zig build` (i.e. when executing the default
