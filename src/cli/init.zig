@@ -14,6 +14,20 @@ pub fn register(writer: *Writer, reader: *Reader, allocator: std.mem.Allocator) 
 }
 
 fn initNode(ctx: zli.CommandContext) !void {
-    try config.configLocationExist(ctx.allocator);
-    try ctx.writer.print("the node is initializing", .{});
+    var nc = config.nodeConfig.init(ctx.allocator);
+    defer nc.deinit();
+
+    const cp = "/mypath/sodapoppin";
+    std.debug.print("config path is null \n", .{});
+    try nc.updateConfigPath(cp);
+
+    std.debug.print("new config path is {s} \n", .{nc.configPath.?});
+
+    config.initConfig(ctx.allocator) catch |err| {
+        if (err == config.configError.HomeNotSet) {
+            std.debug.print("$HOME is not set. Please set it and try again", .{});
+            return;
+        }
+    };
+    try ctx.writer.print("the node is initializing \n", .{});
 }
